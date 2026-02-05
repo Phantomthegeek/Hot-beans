@@ -13,20 +13,32 @@ document.addEventListener('DOMContentLoaded', function() {
     // Additional JavaScript functionality can be added here
 });
 
-// Mobile Menu Toggle
+// Mobile Menu Toggle with Animation
 const menuToggle = document.getElementById('menuToggle');
 const navLinks = document.getElementById('navLinks');
 
-menuToggle.addEventListener('click', function() {
-    navLinks.classList.toggle('active');
-});
-
-// Close menu when link is clicked
-document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-        navLinks.classList.remove('active');
+if (menuToggle) {
+    menuToggle.addEventListener('click', function() {
+        navLinks.classList.toggle('active');
+        menuToggle.classList.toggle('active');
     });
-});
+
+    // Close menu when link is clicked
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            menuToggle.classList.remove('active');
+        });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', function(event) {
+        if (!event.target.closest('.navbar')) {
+            navLinks.classList.remove('active');
+            menuToggle.classList.remove('active');
+        }
+    });
+}
 
 // Form Submission
 document.getElementById('appForm').addEventListener('submit', function(e) {
@@ -885,3 +897,34 @@ function renderTrainees() {
 document.addEventListener('DOMContentLoaded', function() {
     renderTrainees();
 });
+
+// Scroll to Top Button
+const scrollToTopBtn = document.getElementById('scrollToTop');
+
+window.addEventListener('scroll', function() {
+    if (window.pageYOffset > 300) {
+        scrollToTopBtn.classList.add('show');
+    } else {
+        scrollToTopBtn.classList.remove('show');
+    }
+});
+
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
+// Newsletter Subscription
+function subscribeNewsletter() {
+    const email = document.querySelector('.footer-newsletter input').value;
+    
+    if (!email || !email.includes('@')) {
+        alert('Please enter a valid email address');
+        return;
+    }
+    
+    alert('Thank you for subscribing! You\'ll receive updates soon.');
+    document.querySelector('.footer-newsletter input').value = '';
+}
